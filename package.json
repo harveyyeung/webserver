@@ -17,6 +17,17 @@
   },
   "homepage": "https://github.com/yhw8548/webserver#readme",
   "dependencies": {
-    "express": "^4.13.4"
+    "body-parser": "^1.15.1",
+    "errorhandler": "^1.4.3",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "generic-pool": "^2.4.2",
+    "jade": "^1.11.0",
+    "method-override": "^2.3.5",
+    "moment": "^2.13.0",
+    "morgan": "^1.7.0",
+    "multer": "^1.1.0",
+    "pg": "^4.5.5",
+    "serve-favicon": "^2.3.0"
   }
 }

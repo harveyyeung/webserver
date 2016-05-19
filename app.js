@@ -39,6 +39,29 @@ function setGetRouter(action){
    	  actionConfig.actionMapping.get[action](req,res);
    });
 }
+
+/**
+ * 登录过滤监听器
+ *
+ * @param req
+ * @param res
+ */
+function filter(req, res, next) {
+    // 将GET参数转换为POST参数
+    if(req.method==='GET') {
+       // req.body = JSON.parse(req.query.param);
+    }
+    // 跳过登录请求
+    if(req.originalUrl.indexOf('/secret/')==-1) {
+        //next();
+        return;
+    }  
+
+    next();
+}
+
+
+
 for(var action in actionConfig.actionMapping.get){
    setGetRouter(action);
 }
@@ -49,7 +72,8 @@ for(var action in actionConfig.actionMapping.post) {
 if ('development' == app.get('env')) {
    app.use(errorHandler());
 }
-
+// 登录拦截器
+app.use(filter);
 app.use(router);
 http.createServer(app).listen(app.get('port'),function(){
    console.log('express server listening on port'+app.get('port'));
