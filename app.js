@@ -11,8 +11,15 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var errorHandler = require('errorhandler');   
-
+var cors = require('cors')
 var app=new express();
+
+ 
+var app=new express();
+
+
+app.use(cors());
+
 var router = express.Router();
 //all environments
 app.set('port',process.env.PORT||3000);
@@ -47,17 +54,27 @@ function setGetRouter(action){
  * @param res
  */
 function filter(req, res, next) {
-    // 将GET参数转换为POST参数
-    if(req.method==='GET') {
-       // req.body = JSON.parse(req.query.param);
-    }
-    // 跳过登录请求
-    if(req.originalUrl.indexOf('/secret/')==-1) {
-        //next();
-        return;
-    }  
-
+//     res.header('Access-Control-Allow-Origin', '*');
+ // res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+ // res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+//
+ // if (req.method == 'OPTIONS') {
+ //   res.send(200); /让options请求快速返回/
+ // }
+//  else {
     next();
+ // }
+    // 将GET参数转换为POST参数
+   // if(req.method==='GET') {
+       // req.body = JSON.parse(req.query.param);
+    //}
+    // 跳过登录请求
+    //if(req.originalUrl.indexOf('/secret/')==-1) {
+        //next();
+        //return;
+    //}  
+
+    //next();
 }
 
 
