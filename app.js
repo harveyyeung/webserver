@@ -3,7 +3,7 @@ var actionConfig=require('./routes/actionconfig');
 var http=require('http');
 var path=require('path');
 var moment=require('moment');//时间处理
-	
+
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var methodOverride = require('method-override');
@@ -52,10 +52,10 @@ function filter(req, res, next) {
        // req.body = JSON.parse(req.query.param);
     }
     // 跳过登录请求
-    if(req.originalUrl.indexOf('/secret/')==-1) {
+  //  if(req.originalUrl.indexOf('/secret/')==-1) {
         //next();
-        return;
-    }  
+    //    return;
+//}  
 
     next();
 }

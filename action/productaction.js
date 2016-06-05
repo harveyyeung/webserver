@@ -39,7 +39,17 @@ ProductAction.prototype.queryProducts=function(req,res){
     }
 }
 
+ProductAction.prototype.addProductImage=function(req,res){
+ try {
+  var product = req.body;
+  var action = module.exports;
 
+    } catch (err) {
+        console.trace('执行ProductAction.queryProducts. ' + err.message);
+          // 封装响应错误
+        makeResult(req, res, getFaltStateRsp(err));
+    }
+}
 
 ProductAction.prototype.addProduct=function(req,res){
  try {
