@@ -54,19 +54,35 @@ ProductAction.prototype.addProductImage=function(req,res){
 ProductAction.prototype.addProduct=function(req,res){
  try {
   var product = req.body;
+  var file = req.files;
   var action = module.exports;
-  this.productService.queryProducts(product,function (err, result) {
+  var that=this;
+  this.productService.addProduct(product,function (err, result) {
             try {
                 if (err) {
-                     console.trace('ProductAction.queryProducts. ' + err.message);
+                     console.trace('ProductAction.addProducts. ' + err.message);
                        // 封装响应错误
-                    makeResult(req, res, getFaltStateRsp(err));
+                     makeResult(req, res, getFaltStateRsp(err));
                 }
                 else {
-                    //封装响应结果
-                    var resultRsp = {
-                    };
-                   makeResult(req, res, action.build(resultRsp));
+                     var productImage={
+                        productid:result.rows[0].id,
+                        url:file[0].path,
+                        position:1
+                     }
+                     that.productService.addProductImage(productImage,function (err, result) {
+                               //封装响应结果
+                        if (err) {
+                            console.trace('ProductAction.addProducts. ' + err.message);
+                            // 封装响应错误
+                            makeResult(req, res, getFaltStateRsp(err));
+                        }
+                        var resultRsp = {
+                            productid:productImage.productid
+                        };
+                        makeResult(req, res, action.build(resultRsp));
+                         
+                     })
                 }
             }catch(err) {
                 console.trace('执行ProductAction.queryProducts. ' + err.message);
