@@ -40,7 +40,7 @@ function queryUsers(req,res){
 var actionMapping={
   post:{
     '/harvey/v1/secret/product/add':addProduct
-
+    
   },
   get:{
     '/harvey/v1/product/list':queryProducts,

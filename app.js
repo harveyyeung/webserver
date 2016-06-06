@@ -13,30 +13,36 @@ var multer = require('multer');
 var errorHandler = require('errorhandler');   
 var cors = require('cors')
 var app=new express();
-
- 
-var app=new express();
-
-
 app.use(cors());
 
 var router = express.Router();
 //all environments
 app.set('port',process.env.PORT||3000);
-//app.set('views',path.join(__dirname,'views'));
-
+app.set('views',path.join(__dirname,'views'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true}));
+// 文件上传插件
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images/user')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+});
+var upload = multer({ storage: storage });
+var cpUpload = upload.any();
+app.use(cpUpload);
+
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 function setPostRouter(action){
    router.post(action,function(req,res){
-   	  actionConfig.actionMapping.get[action](req,res);
+   	  actionConfig.actionMapping.post[action](req,res);
    });
 }
 
