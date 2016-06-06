@@ -15,6 +15,8 @@ ProductService.prototype.queryProducts = function(callback) {
 
     dataPool.pool.acquire(function (err, client) {
         try {
+              console.log('执行ProductService.queryProducts             ');
+                   
             if (err) {
                 console.trace('执行ProductService.queryProducts. [pg.connect]' + err.message);
   
