@@ -22,6 +22,10 @@ function addProduct(req,res){
 
 }
 
+function addProductImage(req,res){
+    productAction.addProductImage(req,res);
+
+}
 
  /**
  获取产品详细信息
@@ -39,16 +43,21 @@ function queryUsers(req,res){
 
 var actionMapping={
   post:{
-    '/harvey/v1/secret/product/add':addProduct
-    
+    '/harvey/v1/secret/product/add':addProduct,
+    '/harvey/v1/secret/product/initfile':addProductImage
+
   },
   get:{
     '/harvey/v1/product/list':queryProducts,
     '/harvey/v1/product/query':queryProduct,
   
   
-    '/hello':function(req, res){res.send('hello word')},
-     '/':function(req, res){res.send('hello ////')},
+    '/hello':function(req, res){
+        res.send('hello word')
+    },
+     '/':function(req, res){
+         res.send('hello ////')
+      },
      '/user':queryUsers,
   }
 

@@ -72,13 +72,13 @@ ProductService.prototype.addProduct= function(product,callback) {
             productDao.addProduct(product,client,function (err, result) {
                 try {
                     if (err) {
-                        console.trace('执行ProductService.queryProducts' + err.message);
+                        console.trace('执行ProductService.addProducts' + err.message);
                         dataPool.pool.release(client);
                         callback(err);
                     }
                     else {
                        dataPool.pool.release(client);
-                       callback(err, result.rows);
+                       callback(err, result);
                     }
                 }catch(e) {
                     dataPool.pool.release(client);
@@ -91,4 +91,54 @@ ProductService.prototype.addProduct= function(product,callback) {
         }
     });
 }
+
+
+/**
+ * 添加产品封面图
+ *
+ * @param callback
+ */
+ProductService.prototype.addProductImage=function(productImage,callback){
+    var productDao = this.productDao;
+    dataPool.pool.acquire(function (err, client) {
+        try {
+            if (err) {
+                console.trace('执行ProductService.addProductImage. [pg.connect]' + err.message);
+                dataPool.pool.release(client);
+                callback(err);
+                return;
+            }
+            productDao.addProductImage(productImage,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('执行ProductService.addProductImage' + err.message);
+                        dataPool.pool.release(client);
+                        callback(err);
+                    }
+                    else {
+                       dataPool.pool.release(client);
+                       callback(err, result);
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);
+                    callback(e);
+                }
+            });
+        }catch(e) {
+             dataPool.pool.release(client);
+            callback(e);
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
 module.exports = ProductService;

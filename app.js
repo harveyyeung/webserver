@@ -3,7 +3,7 @@ var actionConfig=require('./routes/actionconfig');
 var http=require('http');
 var path=require('path');
 var moment=require('moment');//时间处理
-	
+
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var methodOverride = require('method-override');
@@ -12,21 +12,26 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var errorHandler = require('errorhandler');   
 var cors = require('cors')
+
 var app=new express();
+
 app.use(cors());
 
 var router = express.Router();
 //all environments
 app.set('port',process.env.PORT||3000);
 app.set('views',path.join(__dirname,'views'));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
+
+
 // 文件上传插件
 var multer = require('multer');
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/images/user')
+    cb(null, './public/images/users')
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname)
@@ -75,10 +80,10 @@ function filter(req, res, next) {
        // req.body = JSON.parse(req.query.param);
     //}
     // 跳过登录请求
-    //if(req.originalUrl.indexOf('/secret/')==-1) {
+  //  if(req.originalUrl.indexOf('/secret/')==-1) {
         //next();
-        //return;
-    //}  
+    //    return;
+//}  
 
     //next();
 }
