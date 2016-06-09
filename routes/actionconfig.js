@@ -1,5 +1,6 @@
 var userAction = require('../action/useraction');
 var productAction = require('../action/productaction');
+var uploadfileAction = require('../action/uploadfileaction');
 /**
  * url访问配置
  *
@@ -40,11 +41,15 @@ function queryUsers(req,res){
 
 }
 
+function uploadImage(req,res){
+     uploadfileAction.uploadImage(req,res);
+}
 
 var actionMapping={
   post:{
     '/harvey/v1/secret/product/add':addProduct,
-    '/harvey/v1/secret/product/initfile':addProductImage
+    '/harvey/v1/secret/product/initfile':addProductImage,
+    '/harvey/v1/secret/base/uploadfile':uploadImage
 
   },
   get:{
