@@ -41,18 +41,6 @@ ProductAction.prototype.queryProducts=function(req,res){
     }
 }
 
-ProductAction.prototype.addProductImage=function(req,res){
- try {
-  var product = req.body;
-  var action = module.exports;
-
-    } catch (err) {
-        console.trace('执行ProductAction.queryProducts. ' + err.message);
-          // 封装响应错误
-        makeResult(req, res, getFaltStateRsp(err));
-    }
-}
-
 ProductAction.prototype.addProduct=function(req,res){
  try {
   var product = req.body;
@@ -87,7 +75,7 @@ ProductAction.prototype.addProduct=function(req,res){
                      })
                 }
             }catch(err) {
-                console.trace('执行ProductAction.queryProducts. ' + err.message);
+                console.trace('执行ProductAction.addProduct. ' + err.message);
                 // 封装响应错误
                 makeResult(req, res, getFaltStateRsp(err));
    
@@ -99,5 +87,35 @@ ProductAction.prototype.addProduct=function(req,res){
         makeResult(req, res, getFaltStateRsp(err));
     }
 }
+
+ProductAction.prototype.addDescription=function(req,res){
+
+ var productDescription = req.body;
+ var action = module.exports;
+  this.productService.addProductDescription(productDescription,function (err, result) {
+
+  try {
+                if (err) {
+                     console.trace('ProductAction.addProductDescription. ' + err.message);
+                       // 封装响应错误
+                     makeResult(req, res, getFaltStateRsp(err));
+                }
+                else {
+                        var resultRsp = {
+                        };
+                        makeResult(req, res, action.build(resultRsp));
+                }
+            }catch(err) {
+                console.trace('执行ProductAction.addProductDescription. ' + err.message);
+                // 封装响应错误
+                makeResult(req, res, getFaltStateRsp(err));
+   
+            }
+
+
+  })
+ 
+}
+
 
 module.exports = new ProductAction();

@@ -46,6 +46,17 @@ ProductDao.prototype.addProductImage=function(productImage,client,callback){
 }
 
 
+/**
+ * 添加产品描述
+ *
+ */
+ProductDao.prototype.addProductDescription=function(productDescription,client,callback){
+   var sql='INSERT INTO public.pdescription(productid, content)'+
+            'VALUES ('+productDescription.productid+',\''+productDescription.context+'\')';
+
+	 client.query(sql,callback);
+}
+
 
 
 module.exports = ProductDao;
