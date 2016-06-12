@@ -10,9 +10,9 @@ Util.inherits(ProductAction, BaseAction);
 ProductAction.prototype.queryProducts=function(req,res){
  try {
       console.log('ProductAction.queryProducts. ' );
-                
+  var params=req.query;            
   var action = module.exports;
-  this.productService.queryProducts(function (err, result) {
+  this.productService.queryProducts(params,function (err, result) {
             try {
                 if (err) {
                      console.trace('ProductAction.queryProducts. ' + err.message);

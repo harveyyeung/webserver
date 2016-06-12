@@ -15,8 +15,37 @@ Util.inherits(ProductDao, BaseDao);
  * @param client
  * @param callback
  */
-ProductDao.prototype.queryProducts = function(client, callback) {
-    var sql = 'select p.*,pic.url,pic.position from ' + this.tableName + ' p, public.pictures pic where state=1 and pic.productid=p.id';
+ProductDao.prototype.queryProducts = function(params,client, callback) { 
+    
+var sql = ' select p.*,pic.url,pic.position,cat.category_name as categoryname,sub.content  as subclassname,'+
+           '(select count(1) from public.products where 1=1 ';
+            if(params.sProductName!=null){
+                sql+=' and name like \'%'+params.sProductName+'%\' ';   
+            }
+            if(params.sProductState!=null){
+                sql+=' and state ='+params.sProductState;   
+            }
+            if(params.sProvinceno!=null){
+                sql+=' and provinceno ='+params.sProvinceno;   
+            }
+         
+            sql+= '  ) from public.products  p,'+
+            'public.pictures pic,'+
+            'public.CATEGORY cat,'+
+            'public.SUBCLASS sub '+
+            'where p.state=1 and pic.productid=p.id and p.categoryno=cat.id and p.subclassno=sub.id';
+            
+            if(params.sProductName!=null){
+               sql+=' and p.name like \'%'+params.sProductName+'%\' ';   
+            }
+            if(params.sProductState!=null){
+                sql+=' and p.state ='+params.sProductState;   
+            }
+            if(params.sProvinceno!=null){
+                sql+=' and p.provinceno ='+params.sProvinceno;   
+            }
+           console.log(sql);
+   // 'select p.*,pic.url,pic.position from ' + this.tableName + ' p, public.pictures pic where state=1 and pic.productid=p.id ';
     client.query(sql,callback);
 }
 

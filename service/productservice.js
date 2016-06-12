@@ -10,7 +10,7 @@ function ProductService() {
  *
  * @param callback
  */
-ProductService.prototype.queryProducts = function(callback) {
+ProductService.prototype.queryProducts = function(params,callback) {
     var productDao = this.productDao;
 
     dataPool.pool.acquire(function (err, client) {
@@ -24,7 +24,7 @@ ProductService.prototype.queryProducts = function(callback) {
 
                 return;
             }
-            productDao.queryProducts(client,function (err, result) {
+            productDao.queryProducts(params,client,function (err, result) {
                 try {
                     if (err) {
                         console.trace('执行ProductService.queryProducts. [userDao.queryUsers]               ' + err.message);
