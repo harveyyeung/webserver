@@ -1,13 +1,53 @@
 var dataPool=require('../util/dataPool');
-
+var UserDao = require('../dao/userdao');
 
 function UserService() {
-
-   this.tableName = 'user';
+  this.userDao=new UserDao();
 }
+
 /**
  * 查询用户
- *
+ *queryUser
+ * @param callback
+ */
+UserService.prototype.queryUser = function(phone,callback) {
+    var userDao = this.userDao;
+    dataPool.pool.acquire(function (err, client) {
+        try {
+            console.log('UserService.queryUser');
+            if (err) {
+                console.trace('执行UserService.queryUser. [pg.connect]' + err.message);
+                dataPool.pool.release(client);;
+                return;
+            }
+
+              
+            userDao.queryUser(phone,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('执行UserService.queryUser. [userDao.queryUser]               ' + err.message);
+                        dataPool.pool.release(client);;
+                    }
+                    else {
+                        dataPool.pool.release(client);;
+                        callback(err, result);
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);;
+                    callback(e);
+                }
+            });
+        }catch(e) {
+            done();
+            callback(e);
+        }
+    });
+}
+
+
+/**
+ * 查询用户
+ *queryUsers
  * @param callback
  */
 UserService.prototype.queryUsers = function(callback) {

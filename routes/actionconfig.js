@@ -18,12 +18,11 @@ function queryUsers(req,res){
 }
 //用户注册
 function userRegister(req,res){
-    
+     userAction.userRegister(req,res);
 }
 //用户登录
 function userLogin(req,res){
-    
-    
+     userAction.userLogin(req,res);
 }
 /**
  * 产品信息相关
