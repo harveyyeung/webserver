@@ -8,6 +8,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var methodOverride = require('method-override');
 var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var errorHandler = require('errorhandler');   
@@ -25,7 +26,14 @@ app.set('views',path.join(__dirname,'views'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-
+app.use(cookieParser());
+app.use(session({
+  name:'jsessionid',
+  resave:true,
+  secret: 'sijitianyuan', // 建议使用 128 个字符的随机字符串
+  cookie: { maxAge: 60*1000 },
+  saveUninitialized: true
+}));
 
 // 文件上传插件
 var multer = require('multer');
@@ -73,19 +81,25 @@ function filter(req, res, next) {
  //   res.send(200); /让options请求快速返回/
  // }
 //  else {
-    next();
+//  next();
  // }
     // 将GET参数转换为POST参数
    // if(req.method==='GET') {
        // req.body = JSON.parse(req.query.param);
     //}
     // 跳过登录请求
-  //  if(req.originalUrl.indexOf('/secret/')==-1) {
-        //next();
-    //    return;
-//}  
+  // if(req.originalUrl.indexOf('/secret/')>0) {
+       if(req.session.userid) {
+         console.log(req.session.id+"              "+req.session.userid);
+         
+       }else{
+         // res.redirect('/login.html');
+        //  return;
+       }
+    
+  // }
 
-    //next();
+     next();
 }
 
 
@@ -101,8 +115,10 @@ if ('development' == app.get('env')) {
    app.use(errorHandler());
 }
 // 登录拦截器
-app.use(filter);
+// app.use(filter);
+app.all(/secret/,filter);
 app.use(router);
+
 http.createServer(app).listen(app.get('port'),function(){
    console.log('express server listening on port'+app.get('port'));
 
