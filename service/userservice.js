@@ -5,6 +5,48 @@ function UserService() {
   this.userDao=new UserDao();
 }
 
+
+/**
+ * 添加用户
+ *addUser
+ * @param callback
+ */
+UserService.prototype.addUser = function(user,callback) {
+    var userDao = this.userDao;
+    dataPool.pool.acquire(function (err, client) {
+        try {
+            console.log('UserService.addUser');
+            if (err) {
+                console.trace('执行UserService.addUser. [pg.connect]' + err.message);
+                dataPool.pool.release(client);;
+                return;
+            }
+
+              
+            userDao.addUser(user,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('执行UserService.addUser. [userDao.addUser]               ' + err.message);
+                        dataPool.pool.release(client);;
+                    }
+                    else {
+                        dataPool.pool.release(client);;
+                        callback(err, result);
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);;
+                    callback(e);
+                }
+            });
+        }catch(e) {
+            done();
+            callback(e);
+        }
+    });
+}
+
+
+
 /**
  * 查询用户
  *queryUser
