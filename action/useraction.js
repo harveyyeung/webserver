@@ -31,9 +31,9 @@ UserAction.prototype.userLogin = function(req,res) {
                 }
                 else 
                 {
-                  if(result.rows>0){
+                  if(result.rows.length>0){
                      var quser=result.rows[0];
-                     if(utils.md5(user.password)==quser.password){
+                     if(utility.md5(user.password)==quser.password){
                         req.session.userid=quser.id;
                         req.session.user=quser;
                         var resultRsp = {
@@ -82,7 +82,7 @@ UserAction.prototype.userRegister = function(req,res) {
                      makeResult(req, res, getFaltStateRsp(err));   
                  }
                 else {
-                   if(result.rows>0){
+                   if(result.rows.length>0){
                      makeResult(req, res, getFaltStateRsp({
                        code:'user.exist',
                        maessage:'手机号已被使用,请更换手机号'

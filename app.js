@@ -29,10 +29,10 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(cookieParser());
 app.use(session({
   name:'jsessionid',
-  resave:true,
+  resave:false,
   secret: 'sijitianyuan', // 建议使用 128 个字符的随机字符串
-  cookie: { maxAge: 60*1000 },
-  saveUninitialized: true
+  cookie: { maxAge: 600*1000 },
+  saveUninitialized: false
 }));
 
 // 文件上传插件
@@ -89,17 +89,22 @@ function filter(req, res, next) {
     //}
     // 跳过登录请求
   // if(req.originalUrl.indexOf('/secret/')>0) {
-       if(req.session.userid) {
-         console.log(req.session.id+"              "+req.session.userid);
-         
+       if(req.session.userid||req.originalUrl.indexOf('/login')>0) {
+         console.log(req.session.id+"              "+req.session.user);
+          next();
        }else{
-         // res.redirect('/login.html');
-        //  return;
+         
+              makeResult(req, res, getFaltStateRsp({
+                       code:'user.logonout',
+                       maessage:'登录失效'
+                      }));
+              return;
+   
        }
     
   // }
 
-     next();
+    
 }
 
 
@@ -115,8 +120,9 @@ if ('development' == app.get('env')) {
    app.use(errorHandler());
 }
 // 登录拦截器
-// app.use(filter);
-app.all(/secret/,filter);
+// app.use(filter);/secret/
+// app.all('/',filter);
+app.use(filter);
 app.use(router);
 
 http.createServer(app).listen(app.get('port'),function(){
