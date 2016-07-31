@@ -117,5 +117,37 @@ ProductAction.prototype.addDescription=function(req,res){
  
 }
 
-
+ProductAction.prototype.queryProduct=function(req,res){
+ try {
+      console.log('ProductAction.queryProduct. ' );
+  var params=req.query;            
+  var action = module.exports;
+  this.productService.queryProduct(params,function (err, result) {
+            try {
+                if (err) {
+                     console.trace('ProductAction.queryProduct. ' + err.message);
+                     // 封装响应错误
+                    makeResult(req, res, getFaltStateRsp(err));
+                }
+                else {
+                    //封装响应结果
+                    var resultRsp = {
+                        products: result
+                    };
+                    //res.send(resultRsp);
+                   makeResult(req, res, action.build(resultRsp));
+                }
+            }catch(err) {
+                console.trace('执行ProductAction.queryProduct. ' + err.message);
+              
+                // 封装响应错误
+                makeResult(req, res, getFaltStateRsp(err));
+            }
+        });
+    } catch (err) {
+        console.trace('执行ProductAction.queryProduct. ' + err.message);
+          // 封装响应错误
+        makeResult(req, res, getFaltStateRsp(err));
+    }
+}
 module.exports = new ProductAction();

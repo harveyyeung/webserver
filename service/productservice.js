@@ -27,7 +27,7 @@ ProductService.prototype.queryProducts = function(params,callback) {
             productDao.queryProducts(params,client,function (err, result) {
                 try {
                     if (err) {
-                        console.trace('执行ProductService.queryProducts. [userDao.queryUsers]               ' + err.message);
+                        console.trace('执行ProductService.queryProducts. [productDao.queryProducts]               ' + err.message);
                         dataPool.pool.release(client);;
                     }
                     else {
@@ -39,6 +39,43 @@ ProductService.prototype.queryProducts = function(params,callback) {
                             dataPool.pool.release(client);;
                 
                         }
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);;
+                    callback(e);
+                }
+            });
+        }catch(e) {
+            done();
+            callback(e);
+        }
+    });
+}
+ProductService.prototype.queryProduct = function(params,callback) {
+    var productDao = this.productDao;
+
+    dataPool.pool.acquire(function (err, client) {
+        try {
+              console.log('执行ProductService.queryProduct             ');
+                   
+            if (err) {
+                console.trace('执行ProductService.queryProduct. [pg.connect]' + err.message);
+  
+                dataPool.pool.release(client);;
+
+                return;
+            }
+            productDao.queryProduct(params,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('执行ProductService.queryProduct. [productDao.queryProduct]               ' + err.message);
+                        dataPool.pool.release(client);;
+                    }
+                    else {
+                
+                            dataPool.pool.release(client);;
+                            callback(err, result.rows);
+                   
                     }
                 }catch(e) {
                     dataPool.pool.release(client);;

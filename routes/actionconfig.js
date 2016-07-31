@@ -107,7 +107,7 @@ var actionMapping={
      
   },
   get:{
-    '/harvey/v1/secret/product/list':queryProducts,
+    '/harvey/v1/product/list':queryProducts,
     '/harvey/v1/product/query':queryProduct,
     '/harvey/v1/provice':queryProvice,
     '/harvey/v1/city':queryCity,

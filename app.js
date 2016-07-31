@@ -8,7 +8,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var methodOverride = require('method-override');
 var session = require('express-session');
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var errorHandler = require('errorhandler');   
@@ -26,7 +26,7 @@ app.set('views',path.join(__dirname,'views'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(session({
   name:'jsessionid',
   resave:true,
@@ -89,13 +89,13 @@ function filter(req, res, next) {
     //}
     // 跳过登录请求
   // if(req.originalUrl.indexOf('/secret/')>0) {
-       if(req.session.userid) {
-         console.log(req.session.id+"              "+req.session.userid);
+     //  if(req.session.userid) {
+      //   console.log(req.session.id+"              "+req.session.userid);
          
-       }else{
+      // }else{
          // res.redirect('/login.html');
         //  return;
-       }
+      // }
     
   // }
 
