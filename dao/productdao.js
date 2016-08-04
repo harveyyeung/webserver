@@ -84,6 +84,21 @@ ProductDao.prototype.addProduct=function(product,client,callback){
  * 插入产品信息
  *
  */
+ProductDao.prototype.updateProduct=function(product,client,callback){
+   var sql='INSERT INTO public.products(name, categoryno, subclassno, price, pcount, activityid,' +
+            'abstract, begintime, endtime, address, provinceno, cityno, inputtime, '+
+            'state)'+
+            'VALUES (\''+product.name+'\', '+product.categoryno+', '+product.subclassno+','+product.price+', '+product.pcount+', '+product.activityid+', '+
+            '\''+product.abstract+'\', to_timestamp(\''+ product.begintime+'\', \'YYYY-MM-DD HH24:MI:SS\'),to_timestamp(\''+ product.endtime+'\', \'YYYY-MM-DD HH24:MI:SS\'), \''+product.address+'\', '+product.provinceno+', '+product.cityno+',LOCALTIMESTAMP, 1)  returning id';
+
+	 client.query(sql,callback);
+}
+
+
+/**
+ * 插入产品信息
+ *
+ */
 ProductDao.prototype.addProductImage=function(productImage,client,callback){
    var sql='INSERT INTO public.pictures(productid, url, position)'+
             'VALUES ('+productImage.productid+',\''+productImage.url+'\','+productImage.position+')';
@@ -100,6 +115,17 @@ ProductDao.prototype.addProductDescription=function(productDescription,client,ca
    var sql='INSERT INTO public.pdescription(productid, content)'+
             'VALUES ('+productDescription.productid+',\''+productDescription.context+'\')';
 
+	 client.query(sql,callback);
+}
+
+
+/**
+ * 添加产品描述
+ *
+ */
+ProductDao.prototype.updateProductDescription=function(productDescription,client,callback){
+   var sql='update  public.pdescription set content=\''+productDescription.context+'\''
+            ' where  productid ='+productDescription.productid;
 	 client.query(sql,callback);
 }
 
