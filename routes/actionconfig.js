@@ -45,6 +45,12 @@ function addProduct(req,res){
     productAction.addProduct(req,res);
 
 }
+// 添加产品
+function updateProduct(req,res){
+    productAction.updateProduct(req,res);
+
+}
+
 // 添加产品封面图片
 function addProductImage(req,res){
     productAction.addProductImage(req,res);
@@ -58,6 +64,7 @@ function addDescription(req,res){
 function uploadImage(req,res){
      uploadfileAction.uploadImage(req,res);
 }
+
 /**
  * 字典表相关操作
  * 
@@ -103,8 +110,8 @@ var actionMapping={
     '/harvey/v1/secret/product/add':addProduct,
     '/harvey/v1/secret/product/initfile':addProductImage,
     '/harvey/v1/secret/product/addDescription':addDescription,
-    '/harvey/v1/secret/base/uploadfile':uploadImage
-     
+    '/harvey/v1/secret/base/uploadfile':uploadImage,
+    '/harvey/v1/secret/product/update':updateProduct
   },
   get:{
     '/harvey/v1/product/list':queryProducts,

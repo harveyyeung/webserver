@@ -212,6 +212,123 @@ ProductService.prototype.addProductDescription=function(productDescription,callb
 
 
 
+/**
+ * 修改产品
+ *
+ * @param callback
+ */
+ProductService.prototype.updateProduct= function(product,callback) {
+    var productDao = this.productDao;
+
+    dataPool.pool.acquire(function (err, client) {
+        try {
+            if (err) {
+                console.trace('执行ProductService.queryProducts. [pg.connect]' + err.message);
+  
+                dataPool.pool.release(client);
+                callback(err);
+                return;
+            }
+            productDao.updateProduct(product,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('执行ProductService.updateProduct' + err.message);
+                        dataPool.pool.release(client);
+                        callback(err);
+                    }
+                    else {
+                       dataPool.pool.release(client);
+                       callback(err, result);
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);
+                    callback(e);
+                }
+            });
+        }catch(e) {
+             dataPool.pool.release(client);
+            callback(e);
+        }
+    });
+}
+
+
+/**
+ * 修改产品封面图
+ * @param callback
+ */
+ProductService.prototype.updateProductImage=function(productImage,callback){
+    var productDao = this.productDao;
+    dataPool.pool.acquire(function (err, client) {
+        try {
+            if (err) {
+                console.trace('执行ProductService.addProductImage. [pg.connect]' + err.message);
+                dataPool.pool.release(client);
+                callback(err);
+                return;
+            }
+            productDao.updateProductImage(productImage,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('执行ProductService.addProductImage' + err.message);
+                        dataPool.pool.release(client);
+                        callback(err);
+                    }
+                    else {
+                       dataPool.pool.release(client);
+                       callback(err, result);
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);
+                    callback(e);
+                }
+            });
+        }catch(e) {
+             dataPool.pool.release(client);
+            callback(e);
+        }
+    });
+}
+
+
+/**
+ * 修改产品描述
+ *
+ * @param callback
+ */
+ProductService.prototype.updateProductDescription=function(productDescription,callback){
+    var productDao = this.productDao;
+    dataPool.pool.acquire(function (err, client) {
+        try {
+            if (err) {
+                console.trace('执行ProductService.updateProductDescription. [pg.connect]' + err.message);
+                dataPool.pool.release(client);
+                callback(err);
+                return;
+            }
+            productDao.updateProductDescription(productDescription,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('执行ProductService.updateProductDescription' + err.message);
+                        dataPool.pool.release(client);
+                        callback(err);
+                    }
+                    else {
+                       dataPool.pool.release(client);
+                       callback(err, result);
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);
+                    callback(e);
+                }
+            });
+        }catch(e) {
+             dataPool.pool.release(client);
+            callback(e);
+        }
+    });
+}
+
 
 
 

@@ -51,15 +51,20 @@ var sql = ' select p.*,pic.url,pic.position,cat.category_name as categoryname,su
 
 ProductDao.prototype.queryProduct = function(params,client, callback) { 
 	
-var sql = " select pd.content,p.id,p.name,p.categoryno,p.subclassno,p.price,p.pcount,	p.activityid,	p.abstract	,to_char(p.begintime, 'YYYY/MM/DD HH24:MI:SS')	AS begintime	,to_char(p.endtime, 'YYYY/MM/DD HH24:MI:SS') AS endtime,p.address	,p.provinceno,	p.cityno,p.inputtime,p.state,pic.url,pic.position,cat.category_name as categoryname,sub.content  as subclassname ,city.city_name , pro.provice_name "+
+var sql = " select pd.content,p.id,p.name,p.categoryno,p.subclassno,p.price,p.pcount,	p.activityid,	p.abstract	,to_char(p.begintime, 'YYYY/MM/DD HH24:MI:SS')	AS begintime	,to_char(p.endtime, 'YYYY/MM/DD HH24:MI:SS') AS endtime,p.address,"+
+            "p.provinceno,p.cityno,p.inputtime,p.state,pic.url,pic.position,cat.category_name as categoryname,"+
+            "sub.content  as subclassname ,city.city_name , pro.provice_name,"+
+             "county.county_name,p.countyno "+
             'from public.products  p,'+
             'public.pictures pic,'+
             'public.CATEGORY cat,'+
             'public.SUBCLASS sub, '+
             'public.j_position_provice pro,'+
             'public.j_position_city city, '+
+            'public.j_position_county county, '+
             'public.pdescription pd '+
-            'where  pd.productid=p.id and pro.provice_id=p.provinceno and p.cityno=city.city_id and pic.productid=p.id and p.categoryno=cat.id and p.subclassno=sub.id and p.id='+params.productid;
+
+            'where p.countyno=county.county_id and  pd.productid=p.id and pro.provice_id=p.provinceno and p.cityno=city.city_id and pic.productid=p.id and p.categoryno=cat.id and p.subclassno=sub.id and p.id='+params.productid;
            
            console.log(sql);
    // 'select p.*,pic.url,pic.position from ' + this.tableName + ' p, public.pictures pic where state=1 and pic.productid=p.id ';
@@ -96,7 +101,7 @@ ProductDao.prototype.updateProduct=function(product,client,callback){
 
 
 /**
- * 插入产品信息
+ * 插入产品封面信息
  *
  */
 ProductDao.prototype.addProductImage=function(productImage,client,callback){
@@ -118,9 +123,32 @@ ProductDao.prototype.addProductDescription=function(productDescription,client,ca
 	 client.query(sql,callback);
 }
 
+/**
+ * 修改产品信息
+ *
+ */
+ProductDao.prototype.updateProduct=function(product,client,callback){
+   var sql='update  public.products set ' +
+            'name=\''+product.name+'\', categoryno='+product.categoryno+', subclassno='+product.subclassno+',price='+product.price+', pcount='+product.pcount+', activityid='+product.activityid+', '+
+            'abstract=\''+product.abstract+'\',begintime= to_timestamp(\''+ product.begintime+'\', \'YYYY-MM-DD HH24:MI:SS\'),endtime=to_timestamp(\''+ product.endtime+'\', \'YYYY-MM-DD HH24:MI:SS\'), address=\''+product.address+'\', provinceno='+product.provinceno+',cityno= '+product.cityno+',countyno ='+product.countyno+' where id='+product.id;
+
+	 client.query(sql,callback);
+}
+
 
 /**
- * 添加产品描述
+ * 修改产品封面信息
+ *
+ */
+ProductDao.prototype.addProductImage=function(productImage,client,callback){
+   var sql='update  public.pictures set '+
+            'url=\''+productImage.url+'\ where  productid='+productid;
+	 client.query(sql,callback);
+}
+
+
+/**
+ * 修改产品描述
  *
  */
 ProductDao.prototype.updateProductDescription=function(productDescription,client,callback){
