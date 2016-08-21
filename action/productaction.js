@@ -9,7 +9,7 @@ Util.inherits(ProductAction, BaseAction);
 
 ProductAction.prototype.queryProducts=function(req,res){
  try {
-      console.log('ProductAction.queryProducts. ' );
+  console.log('ProductAction.queryProducts. ' );
   var params=req.query;            
   var action = module.exports;
   this.productService.queryProducts(params,function (err, result) {
@@ -203,6 +203,59 @@ ProductAction.prototype.updateProduct=function(req,res){
         makeResult(req, res, getFaltStateRsp(err));
     }
 }
+
+ProductAction.prototype.offProduct=function(req,res){
+  var product = req.body;
+  var action = module.exports;
+  this.productService.offProduct(product,function (err, result) {
+  try {
+            if (err) {
+                console.trace('ProductAction.offProduct. ' + err.message);
+                // 封装响应错误
+                makeResult(req, res, getFaltStateRsp(err));
+            }
+            else {
+                    var resultRsp = {
+                    };
+                    makeResult(req, res, getSuccStateRsp());
+            }
+        }catch(err) {
+            console.trace('执行ProductAction.updateProductDescription. ' + err.message);
+            // 封装响应错误
+            makeResult(req, res, getFaltStateRsp(err));
+
+        }
+
+
+  })
+
+}
+
+ProductAction.prototype.upProduct=function(req,res){
+  var product = req.body;
+  var action = module.exports;
+  this.productService.upProduct(product,function (err, result) {
+        try {
+                if (err) {
+                        console.trace('ProductAction.upProduct. ' + err.message);
+                        // 封装响应错误
+                        makeResult(req, res, getFaltStateRsp(err));
+                }
+                else {
+                        var resultRsp = {
+                        };
+                        makeResult(req, res, getSuccStateRsp());
+                }
+            }catch(err) {
+                console.trace('执行ProductAction.upProduct. ' + err.message);
+                // 封装响应错误
+                makeResult(req, res, getFaltStateRsp(err));
+            }
+  })
+}
+
+
+
 
 ProductAction.prototype.updateDescription=function(req,res){
 

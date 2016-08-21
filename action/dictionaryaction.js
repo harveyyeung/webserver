@@ -111,6 +111,118 @@ DictionaryAction.prototype.queryCategory=function(req,res){
             }
   });
 }
+// 添加产品类型
+DictionaryAction.prototype.addCategory=function(req,res){
+
+ var category = req.body;
+ var action = module.exports;
+ this.DictionaryService.addCategory(category,function (err, result) {
+
+  try {
+                if (err) {
+                     console.trace('DictionaryAction.addCategory. ' + err.message);
+                       // 封装响应错误
+                     makeResult(req, res, getFaltStateRsp(err));
+                }
+                else {
+                      var resultRsp = {
+                            categoryid:result.rows[0].id
+                        };
+                        makeResult(req, res,action.build(resultRsp));
+                }
+            }catch(err) {
+                console.trace('DictionaryAction.addCategory. ' + err.message);
+                // 封装响应错误
+                makeResult(req, res, getFaltStateRsp(err));
+   
+            }
+
+
+  })
+
+}
+// 添加产品类型
+DictionaryAction.prototype.delCategory=function(req,res){
+
+ var category = req.body;
+ var action = module.exports;
+ this.DictionaryService.delCategory(category,function (err, result) {
+
+  try {
+               if (err) {
+                     console.trace('DictionaryAction.delCategory. ' + err.message);
+                       // 封装响应错误
+                     makeResult(req, res, getFaltStateRsp(err));
+                }
+                else {
+                      makeResult(req, res, getSuccStateRsp());
+                }
+            }catch(err) {
+                console.trace('DictionaryAction.delCategory. ' + err.message);
+                // 封装响应错误
+                makeResult(req, res, getFaltStateRsp(err));
+   
+            }
+
+
+  })
+
+}
+// 添加产品子类
+DictionaryAction.prototype.addSubclass=function(req,res){
+
+ var subclass = req.body;
+ var action = module.exports;
+  this.DictionaryService.addSubclass(subclass,function (err, result) {
+
+  try {
+                if (err) {
+                     console.trace('DictionaryAction.addSubclass. ' + err.message);
+                       // 封装响应错误
+                     makeResult(req, res, getFaltStateRsp(err));
+                }
+                else {
+         
+                      makeResult(req, res, getSuccStateRsp());
+                }
+            }catch(err) {
+                  console.trace('DictionaryAction.addSubclass. ' + err.message);
+                  // 封装响应错误
+                  makeResult(req, res, getFaltStateRsp(err));
+   
+            }
+
+
+  })
+    
+}
+// 删除产品子类
+DictionaryAction.prototype.delSubclass=function(req,res){
+
+ var subclass = req.body;
+ var action = module.exports;
+  this.DictionaryService.delSubclass(subclass,function (err, result) {
+
+  try {
+                if (err) {
+                     console.trace('DictionaryAction.delSubclass. ' + err.message);
+                       // 封装响应错误
+                     makeResult(req, res, getFaltStateRsp(err));
+                }
+                else {
+                     makeResult(req, res, getSuccStateRsp());
+                }
+            }catch(err) {
+                  console.trace('DictionaryAction.delSubclass. ' + err.message);
+                // 封装响应错误
+                makeResult(req, res, getFaltStateRsp(err));
+   
+            }
+
+
+  })
+    
+}
 // 产品子类
 DictionaryAction.prototype.querySubclass=function(req,res){
  var action= module.exports;

@@ -188,7 +188,8 @@ DictionaryService.prototype.querySubclass=function(categoryid,callback){
                             callback(err, result);
                         }
                         else {
-                            dataPool.pool.release(client);;
+                            dataPool.pool.release(client);
+                            callback(err, result);
                         }
                     }
                 }catch(e) {
@@ -198,6 +199,143 @@ DictionaryService.prototype.querySubclass=function(categoryid,callback){
             });
         }catch(e) {
             done();
+            callback(e);
+        }
+    });
+}
+
+
+DictionaryService.prototype.addCategory=function(category,callback){
+ var dictionaryDao = this.dictionaryDao;
+ dataPool.pool.acquire(function (err, client) {
+        try {
+              console.log('DictionaryService.addCategory             ');
+                   
+            if (err) {
+                console.trace('DictionaryService.addCategory. [pg.connect]' + err.message);
+                dataPool.pool.release(client);;
+                return;
+            }
+            dictionaryDao.addCategory(category,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('DictionaryService.addCategory' + err.message);
+                        dataPool.pool.release(client);;
+                        callback(err);
+                    }
+                    else {
+                       dataPool.pool.release(client);
+                       callback(err, result);
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);;
+                    callback(e);
+                }
+            });
+        }catch(e) {
+            dataPool.pool.release(client);
+            callback(e);
+        }
+    });
+}
+DictionaryService.prototype.addSubclass=function(subclass,callback){
+ var dictionaryDao = this.dictionaryDao;
+ dataPool.pool.acquire(function (err, client) {
+        try {
+              console.log('DictionaryService.addSubclass             ');
+                   
+            if (err) {
+                console.trace('DictionaryService.addSubclass. [pg.connect]' + err.message);
+                dataPool.pool.release(client);;
+                return;
+            }
+            dictionaryDao.addSubclass(subclass,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('DictionaryService.addSubclass' + err.message);
+                        dataPool.pool.release(client);
+                         callback(err, result);
+                    }
+                    else {
+                            dataPool.pool.release(client);;
+                            callback(err, result);
+                       
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);;
+                    callback(e);
+                }
+            });
+        }catch(e) {
+           dataPool.pool.release(client);
+            callback(e);
+        }
+    });
+}
+
+DictionaryService.prototype.delCategory=function(category,callback){
+ var dictionaryDao = this.dictionaryDao;
+ dataPool.pool.acquire(function (err, client) {
+        try {
+              console.log('DictionaryService.delCategory             ');
+                   
+            if (err) {
+                console.trace('DictionaryService.delCategory. [pg.connect]' + err.message);
+                dataPool.pool.release(client);;
+                return;
+            }
+            dictionaryDao.delCategory(category,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('DictionaryService.delCategory' + err.message);
+                        dataPool.pool.release(client);;
+                        callback(err);
+                    }
+                    else {
+                        dataPool.pool.release(client);
+                        callback(err, result);
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);;
+                    callback(e);
+                }
+            });
+        }catch(e) {
+            dataPool.pool.release(client);
+            callback(e);
+        }
+    });
+}
+DictionaryService.prototype.delSubclass=function(subclass,callback){
+ var dictionaryDao = this.dictionaryDao;
+ dataPool.pool.acquire(function (err, client) {
+        try {
+              console.log('DictionaryService.addSubclass             ');
+                   
+            if (err) {
+                console.trace('DictionaryService.delSubclass. [pg.connect]' + err.message);
+                dataPool.pool.release(client);;
+                return;
+            }
+            dictionaryDao.delSubclass(subclass,client,function (err, result) {
+                try {
+                    if (err) {
+                        console.trace('DictionaryService.delSubclass' + err.message);
+                        dataPool.pool.release(client);
+                        callback(err, result);
+                    }
+                    else {
+                        dataPool.pool.release(client);;
+                        callback(err, result);
+                       
+                    }
+                }catch(e) {
+                    dataPool.pool.release(client);;
+                    callback(e);
+                }
+            });
+        }catch(e) {
+           dataPool.pool.release(client);
             callback(e);
         }
     });
