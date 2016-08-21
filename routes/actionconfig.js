@@ -59,7 +59,9 @@ function addProductImage(req,res){
 function addDescription(req,res){
       productAction.addDescription(req,res);
 }
-
+function updateDescription(req,res){
+      productAction.updateDescription(req,res);
+}
 //产品详细中图片上传
 function uploadImage(req,res){
      uploadfileAction.uploadImage(req,res);
@@ -111,7 +113,8 @@ var actionMapping={
     '/harvey/v1/secret/product/initfile':addProductImage,
     '/harvey/v1/secret/product/addDescription':addDescription,
     '/harvey/v1/secret/base/uploadfile':uploadImage,
-    '/harvey/v1/secret/product/update':updateProduct
+    '/harvey/v1/secret/product/update':updateProduct,
+    '/harvey/v1/secret/product/updateDescription':updateDescription
   },
   get:{
     '/harvey/v1/product/list':queryProducts,

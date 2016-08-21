@@ -17,7 +17,7 @@ Util.inherits(ProductDao, BaseDao);
  */
 ProductDao.prototype.queryProducts = function(params,client, callback) { 
     
-var sql = ' select p.*,pic.url,pic.position,cat.category_name as categoryname,sub.content  as subclassname,'+
+var sql = " select p.id,p.name,p.categoryno,p.subclassno,p.price,p.pcount,p.address,p.activityid,p.abstract,to_char(p.begintime, 'YYYY/MM/DD HH24:MI:SS') AS begintime,to_char(p.endtime, 'YYYY/MM/DD HH24:MI:SS') AS endtime,pic.url,pic.position,cat.category_name as categoryname,sub.content  as subclassname,"+
            '(select count(1) from public.products where 1=1 ';
             if(params.sProductName!=null){
                 sql+=' and name like \'%'+params.sProductName+'%\' ';   
