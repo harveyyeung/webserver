@@ -33,7 +33,7 @@ var sql = " select p.id,p.name,p.categoryno,p.subclassno,p.price,p.pcount,p.addr
             'public.pictures pic,'+
             'public.CATEGORY cat,'+
             'public.SUBCLASS sub '+
-            'where p.state=1 and pic.productid=p.id and p.categoryno=cat.id and p.subclassno=sub.id';
+            'where  pic.productid=p.id and p.categoryno=cat.id and p.subclassno=sub.id';
             
             if(params.sProductName!=null){
                sql+=' and p.name like \'%'+params.sProductName+'%\' ';   
@@ -154,6 +154,26 @@ ProductDao.prototype.addProductImage=function(productImage,client,callback){
 ProductDao.prototype.updateProductDescription=function(productDescription,client,callback){
    var sql='update  public.pdescription set content=\''+productDescription.context+'\''
             ' where  productid ='+productDescription.productid;
+	 client.query(sql,callback);
+}
+
+
+/**
+ * 产品上架
+ *
+ */
+ProductDao.prototype.upProduct=function(product,client,callback){
+   var sql='update  public.products set state='+1+' where  id ='+product.productid;
+	 client.query(sql,callback);
+}
+
+
+/**
+ * 产品下架
+ *
+ */
+ProductDao.prototype.offProduct=function(product,client,callback){
+     var sql='update  public.products set state='+2+' where  id ='+product.productid;
 	 client.query(sql,callback);
 }
 

@@ -81,7 +81,7 @@ function filter(req, res, next) {
  //   res.send(200); /让options请求快速返回/
  // }
 //  else {
-//  next();
+  next();
  // }
     // 将GET参数转换为POST参数
    // if(req.method==='GET') {
